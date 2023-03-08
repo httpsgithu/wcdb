@@ -3,26 +3,23 @@
 #import <Foundation/Foundation.h>
 #import <WCDB/WCDB.h>
 
-class ___VARIABLE_productName___TokenizerInfo final : public WCDB::AbstractTokenizerInfo {
+class ___VARIABLE_productName___Tokenizer final
+: public WCDB::AbstractFTSTokenizer {
 public:
-    ___VARIABLE_productName___TokenizerInfo(int argc, const char *const *argv);
-    ~___VARIABLE_productName___TokenizerInfo();
-};
-
-class ___VARIABLE_productName___TokenizerCursorInfo final
-: public WCDB::AbstractTokenizerCursorInfo {
-public:
-    ___VARIABLE_productName___TokenizerCursorInfo(const char *input,
-                                                  int inputLength,
-                                                  WCDB::AbstractTokenizerInfo *tokenizerInfo);
-    ~___VARIABLE_productName___TokenizerCursorInfo();
-
-    int step(const char **ppToken,
-             int *pnBytes,
-             int *piStartOffset,
-             int *piEndOffset,
-             int *piPosition) override final;
-
-protected:
-    ___VARIABLE_productName___TokenizerInfo *m_tokenizerInfo;
+    ___VARIABLE_productName___Tokenizer(const char *const *azArg,
+                                        int nArg,
+                                        void *pCtx /* pCtx is only used in FTS5 */);
+    ~___VARIABLE_productName___Tokenizer();
+    
+    void loadInput(const char *pText,
+                   int nText,
+                   int flags /* flags is only used in FTS5 */) override final;
+    
+    int nextToken(const char **ppToken,
+                  int *nToken,
+                  int *iStart,
+                  int *iEnd,
+                  int *tflags,   //tflags is only used in FTS5
+                  int *iPosition //iPosition is only used in FTS3/4
+    ) override final;
 };
